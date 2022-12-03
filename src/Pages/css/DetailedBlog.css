@@ -1,0 +1,15 @@
+.detailed-blog {
+  color: #313637;
+  font-family: "Lora", "georgia", serif;
+  width: 80%;
+  font-size: 20px;
+  box-shadow: 10px 10px 131px -59px rgba(0, 0, 0, 0.69);
+  -webkit-box-shadow: 10px 10px 131px -59px rgba(0, 0, 0, 0.69);
+  -moz-box-shadow: 10px 10px 131px -59px rgba(0, 0, 0, 0.69);
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.detailed-blog img {
+  max-width: 100%;
+}

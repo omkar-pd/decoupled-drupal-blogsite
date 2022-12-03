@@ -1,6 +1,6 @@
 import React from 'react'
 import "./css/Input.css"
-export const Input = (props) => {
+export const Input = React.forwardRef((props, ref) => {
   return (
     <div>
     {props.label && <label htmlFor="input-field">{props.label}</label>}
@@ -9,7 +9,8 @@ export const Input = (props) => {
     name={props.name}
     className="form-control"
     placeholder={props.placeholder}
-    onChange={props.onChange}/>
+    onChange={props.onChange}
+    ref={ref}/>
     </div>
   )
-}
+})

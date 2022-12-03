@@ -1,24 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Input } from "../Components/Input";
 import "./css/Login.css";
 
 export const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const onChangeUsername = (e) => {
-    setUsername(e.target.value);
-    console.log(username);
-  };
-
-  const onChangePassword = (e) => {
-    setPassword(e.target.value);
-    console.log(password);
-  };
+  const usernameRef = useRef();
+  const passwordRef = useRef();
 
   const onSubmitHandler = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+    console.log(usernameRef.current.value);
+    console.log(passwordRef.current.value);
+
+  };
 
   return (
     <div className="login-form">
@@ -28,13 +23,13 @@ export const Login = () => {
           type="text"
           label="Enter Username"
           name="email-username"
-          onChange={onChangeUsername}
+          ref={usernameRef}
         />
         <Input
           type="password"
           label="Enter Password"
           name="password"
-          onChange={onChangePassword}
+          ref={passwordRef}
         />
         <Input type="submit" />
       </form>

@@ -11,7 +11,6 @@ function App() {
         <Navbar></Navbar>
         <Routes>
           <Route path="/" element={<Blogs />} />
-          {/* <Route path="/blogs" element={<Blogs />} /> */}
           <Route path="blog/:id" element={<DetailedBlog/>}/>
           <Route path="/signin" element={<Login/>}/>
         </Routes>
