@@ -1,20 +1,31 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Input } from "../Components/Input";
+import { handleLogin } from "../Services/auth";
 import "./css/Login.css";
-
+import { useNavigate } from "react-router-dom";
 export const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const usernameRef = useRef();
   const passwordRef = useRef();
 
-  const onSubmitHandler = (e) => {
+  const navigate = useNavigate();
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(usernameRef.current.value);
-    console.log(passwordRef.current.value);
-
+    const username = usernameRef.current.value;
+    const password = passwordRef.current.value;
+    const response = await handleLogin(username, password).then((res) => {
+      navigate('/')
+      return res;
+    });
+    // if (response) {
+    //   setIsLoggedIn(true);
+    // }
   };
 
+  useEffect(() => {
+    console.log("HELLO");
+  });
   return (
     <div className="login-form">
       <h2>Login</h2>
