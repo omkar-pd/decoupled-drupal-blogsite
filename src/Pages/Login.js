@@ -1,11 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Input } from "../Components/Input";
 import { handleLogin } from "../Services/auth";
 import "./css/Login.css";
 import { useNavigate } from "react-router-dom";
-export const Login = () => {
+import { Context } from "../Context/userContext";
+import { useContext } from "react";
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export const Login = () => {
+  const { dispatch } = useContext(Context);
   const usernameRef = useRef();
   const passwordRef = useRef();
 
@@ -15,17 +17,16 @@ export const Login = () => {
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
     const response = await handleLogin(username, password).then((res) => {
-      navigate('/')
       return res;
     });
-    // if (response) {
-    //   setIsLoggedIn(true);
-    // }
+    if (response) {
+      dispatch({
+        type: "LOGIN",
+      });
+      navigate("/");
+    }
   };
 
-  useEffect(() => {
-    console.log("HELLO");
-  });
   return (
     <div className="login-form">
       <h2>Login</h2>

@@ -1,15 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from "./NavElements";
-import { isLoggedIn } from "../Services/auth";
-
+import { Context } from "../Context/userContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { handleLogout } from "../Services/auth";
 const Navbar = () => {
-  let user;
-  // useEffect = () => {
-  //   user = isLoggedIn().then((res) => {
-  //     return res;
-  //   });
-  // };
-
+  const navigate = useNavigate();
+  const { state, dispatch } = useContext(Context);
+  const onLogout = async () => {
+    const res = await handleLogout();
+    if (res) {
+      dispatch({
+        type: "LOGOUT",
+      });
+      navigate('/signin')
+    }
+  };
   return (
     <>
       <Nav>
@@ -21,11 +27,11 @@ const Navbar = () => {
           <NavLink to="/sign-up">Sign Up</NavLink>
         </NavMenu>
         <NavBtn>
-          {/* {user ? ( */}
-            {/* <NavBtnLink to="/logout">Log Out</NavBtnLink> */}
-          {/* ) : ( */}
+          {state.isAuthenticated ? (
+            <NavBtnLink onClick={onLogout}>Log Out</NavBtnLink>
+          ) : (
             <NavBtnLink to="/signin">Sign In</NavBtnLink>
-          {/* )} */}
+          )}
         </NavBtn>
       </Nav>
     </>

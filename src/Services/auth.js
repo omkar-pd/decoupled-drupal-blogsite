@@ -5,7 +5,7 @@ export const handleLogin = async (username, password) => {
   if (drupallogIn !== undefined && drupallogIn == 200) {
     return fetchSaveOauthToken(username, password);
   }
-  return "Error Occured";
+  return false;
 };
 
 const drupalLogIn = async (username, password) => {
@@ -45,17 +45,44 @@ const fetchOauthToken = async (username, password) => {
     });
     return response;
   } catch (error) {
-    console.log("Error Occured, Please Check Username and Password");
+    return error;
   }
 };
 
 const saveToken = (json) => {
   const token = { ...json };
-  // debugger;
   token.date = Math.floor(Date.now() / 1000);
   token.expirationDate = token.date + token.expires_in;
   localStorage.setItem("access-token", JSON.stringify(token));
   return token;
+};
+
+export const handleLogout = async () => {
+  const drupallogout = await drupalLogout();
+  localStorage.removeItem("access-token");
+  return drupallogout;
+};
+
+const drupalLogout = async () => {
+  const oauthToken = await isLoggedIn();
+  const logoutoken = oauthToken.access_token;
+  if (logoutoken) {
+    try {
+      const res = await axios
+        .get(`user/logout?_format=json`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${logoutoken}`,
+          },
+        })
+        .then((res) => {
+          return res.status;
+        });
+      return res;
+    } catch (error) {
+      return false;
+    }
+  }
 };
 
 export const isLoggedIn = async () => {
@@ -72,12 +99,14 @@ export const isLoggedIn = async () => {
 
   // If not, return false as the user is not loggedIn.
   if (token === null) {
-    return Promise.resolve(false);
+    // return Promise.resolve(false);
+    return false;
   }
 
   // Check if access token is still valid
   if (token !== null && token.expirationDate > Math.floor(Date.now() / 1000)) {
-    return Promise.resolve(token);
+    // return Promise.resolve(token);
+    return token;
   }
   // If not, use refresh token and generate new token
   // if (token !== null) {
@@ -115,6 +144,4 @@ export const isLoggedIn = async () => {
   //   const token =  await saveToken(result);
   //   return Promise.resolve(token)
   // }
-
-
 };
