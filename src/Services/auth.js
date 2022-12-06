@@ -1,8 +1,10 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const handleLogin = async (username, password) => {
   const drupallogIn = await drupalLogIn(username, password);
-  if (drupallogIn !== undefined && drupallogIn == 200) {
+  if (drupallogIn !== undefined && drupallogIn.status == 200) {
+    localStorage.setItem("user", JSON.stringify(drupallogIn.data));
     return fetchSaveOauthToken(username, password);
   }
   return false;
@@ -14,7 +16,7 @@ const drupalLogIn = async (username, password) => {
       name: username,
       pass: password,
     });
-    return response.status;
+    return response;
   } catch (error) {
     return error.response.status;
   }
@@ -33,7 +35,7 @@ const fetchOauthToken = async (username, password) => {
     password: password,
     client_id: "MhH1oYtS1BgyKwWzskUIZs6SA3Ynhw4sMj4-gBhQJQU",
     client_secret: "demo",
-    score: "content_editor",
+    scope: "content_editor",
     grant_type: "password",
   };
   try {
@@ -60,6 +62,7 @@ const saveToken = (json) => {
 export const handleLogout = async () => {
   const drupallogout = await drupalLogout();
   localStorage.removeItem("access-token");
+  localStorage.removeItem("user");
   return drupallogout;
 };
 
@@ -88,7 +91,7 @@ const drupalLogout = async () => {
 export const isLoggedIn = async () => {
   // Check if code is executing in browser or not
   if (typeof window === "undefined") {
-    return Promise.resolve(false);
+    return false;
   }
 
   // Check if we already have access token in localStorage
@@ -109,39 +112,27 @@ export const isLoggedIn = async () => {
     return token;
   }
   // If not, use refresh token and generate new token
-  // if (token !== null) {
-  //   const data = {
-  //     client_id: "MhH1oYtS1BgyKwWzskUIZs6SA3Ynhw4sMj4-gBhQJQU",
-  //     client_secret: "demo",
-  //     grant_type: "refresh_token",
-  //     scope: "content_editor",
-  //     refresh_token: token.refresh_token,
-  //   };
-
-  // try {
-  //   const response = await axios({
-  //     method: "post",
-  //     url: "oauth/token",
-  //     data: data,
-  //     headers: { "Content-Type": "multipart/form-data" },
-  //   });
-  //   // return response;
-  //   console.log(response);
-  // } catch (error) {
-  //   console.log("Error Occured, Please Check Username and Password");
-  // }
-
-  // const response = await fetch('/oauth/token', {
-  //   method: 'post',
-  //   headers: new Headers({
-  //     Accept: 'application/json',
-  //   }),
-  //   body: formData,
-  // });
-
-  // if (response.ok) {
-  //   const result = await response.json();
-  //   const token =  await saveToken(result);
-  //   return Promise.resolve(token)
-  // }
+  if (token !== null) {
+    let formData = new FormData();
+    formData.append("client_id", "MhH1oYtS1BgyKwWzskUIZs6SA3Ynhw4sMj4-gBhQJQU");
+    formData.append("client_secret", "demo");
+    formData.append("scope", "content_editor");
+    formData.append("grant_type", "refresh_token");
+    formData.append("refresh_token", token.refresh_token);
+    try {
+      const response = await axios({
+        method: "post",
+        url: "oauth/token",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log(response);
+      if (response.status === 200) {
+        const token = await saveToken(response.data);
+        return token;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
 };

@@ -3,7 +3,7 @@ import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from "./NavElements";
 import { Context } from "../Context/userContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleLogout } from "../Services/auth";
+import { handleLogout, isLoggedIn } from "../Services/auth";
 const Navbar = () => {
   const navigate = useNavigate();
   const { state, dispatch } = useContext(Context);
@@ -13,7 +13,7 @@ const Navbar = () => {
       dispatch({
         type: "LOGOUT",
       });
-      navigate('/signin')
+      navigate("/signin");
     }
   };
   return (

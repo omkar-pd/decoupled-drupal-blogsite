@@ -6,9 +6,18 @@ import DetailedBlog from "./Pages/DetailedBlog";
 import Navbar from "./Components/Navbar";
 import { Login } from "./Pages/Login";
 import { ContextProvider } from "./Context/userContext";
+// import { useEffect } from "react";
+// import { isLoggedIn } from "./Services/auth";
 
 function App() {
+  // useEffect(() => {
+  //   const ifLoggedIn = async () => {
+  //     const res = await isLoggedIn();
 
+  //     console.log(res);
+  //   };
+  //   ifLoggedIn();
+  // });
 
   return (
     <ContextProvider>
