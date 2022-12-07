@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { fetchDetailedArticle } from "../Services/fetchData";
 import { update } from "../Services/update";
 import { useNavigate } from "react-router-dom";
-// import fallback from "../Assets/image.jpeg";
+
 export const Update = () => {
-  const parse = require("html-react-parser");
+  const regex = /(<([^>]+)>)/gi;
   const { id } = useParams();
   const navigate = useNavigate();
   const [detailedBlog, setDetailedBlog] = useState({});
@@ -19,8 +19,8 @@ export const Update = () => {
       fetchDetailedArticle(id).then((res) => {
         setDetailedBlog({
           title: res.data.attributes.title,
-          summary: res.data.attributes.body.summary,
-          body: parse(res.data.attributes.body.value),
+          summary: res.data.attributes.body.summary.replace(regex, ""),
+          body: res.data.attributes.body.value.replace(regex, ""),
         });
       });
     }
@@ -29,9 +29,10 @@ export const Update = () => {
   }, [id]);
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    const summary = summaryRef.current ? summaryRef.current.value : "";
     const data = {
       title: titleRef.current.value,
-      summary: summaryRef.current.value,
+      summary: summary,
       body: bodyRef.current.value,
       id: id,
     };
@@ -43,7 +44,7 @@ export const Update = () => {
   return (
     <div className=" lg:w-4/6 mx-auto shadow-lg p-5">
       <h5 className="text-gray-900 font-bold text-2xl text-center tracking-tight mb-2">
-        Create Blog
+        Update Blog
       </h5>
       <form onSubmit={onSubmitHandler} className="w-full">
         <div className="my-3 py-3">
