@@ -6,19 +6,9 @@ import DetailedBlog from "./Pages/DetailedBlog";
 import Navbar from "./Components/Navbar";
 import { Login } from "./Pages/Login";
 import { ContextProvider } from "./Context/userContext";
-// import { useEffect } from "react";
-// import { isLoggedIn } from "./Services/auth";
-
+import { CreateArticle } from "./Pages/CreateArticle";
+import { Update } from "./Pages/Update";
 function App() {
-  // useEffect(() => {
-  //   const ifLoggedIn = async () => {
-  //     const res = await isLoggedIn();
-
-  //     console.log(res);
-  //   };
-  //   ifLoggedIn();
-  // });
-
   return (
     <ContextProvider>
       <div className="App">
@@ -28,6 +18,8 @@ function App() {
             <Route path="/" element={<Blogs />} />
             <Route path="blog/:id" element={<DetailedBlog />} />
             <Route path="/signin" element={<Login />} />
+            <Route path="/blog/create" element={<CreateArticle />} />
+            <Route path="/blog/update/:id" element={<Update />} />
           </Routes>
         </Router>
       </div>

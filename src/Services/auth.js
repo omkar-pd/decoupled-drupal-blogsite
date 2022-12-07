@@ -1,9 +1,8 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export const handleLogin = async (username, password) => {
   const drupallogIn = await drupalLogIn(username, password);
-  if (drupallogIn !== undefined && drupallogIn.status == 200) {
+  if (drupallogIn !== undefined && drupallogIn.status === 200) {
     localStorage.setItem("user", JSON.stringify(drupallogIn.data));
     return fetchSaveOauthToken(username, password);
   }
@@ -72,7 +71,7 @@ const drupalLogout = async () => {
   if (logoutoken) {
     try {
       const res = await axios
-        .get(`user/logout?_format=json`, {
+        .get(`http://decoupled-drupal.co/user/logout?_format=json`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${logoutoken}`,
@@ -126,7 +125,6 @@ export const isLoggedIn = async () => {
         data: formData,
         headers: { "Content-Type": "multipart/form-data" },
       });
-      console.log(response);
       if (response.status === 200) {
         const token = await saveToken(response.data);
         return token;

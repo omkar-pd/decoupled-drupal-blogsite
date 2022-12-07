@@ -1,0 +1,24 @@
+.article-form {
+  display: flex;
+  flex-direction: column;
+  height: 850px;
+  width: 550px;
+  margin: 25px auto;
+  box-shadow: 10px 10px 76px -14px rgba(0, 0, 0, 0.57);
+  -webkit-box-shadow: 10px 10px 76px -14px rgba(0, 0, 0, 0.57);
+  -moz-box-shadow: 10px 10px 76px -14px rgba(0, 0, 0, 0.57);
+}
+
+.article-form h2 {
+  padding-top: 25px;
+}
+
+.article-form form div {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.article-form form .form-control {
+  margin: 0 auto;
+}

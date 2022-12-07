@@ -10,7 +10,8 @@ export const Input = React.forwardRef((props, ref) => {
     className="form-control"
     placeholder={props.placeholder}
     onChange={props.onChange}
-    ref={ref}/>
+    ref={ref}
+    required={props.required}/>
     </div>
   )
 })

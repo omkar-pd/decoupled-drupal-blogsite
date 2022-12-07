@@ -1,10 +1,8 @@
-// import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
 import { fetchArticles } from "../Services/fetchData";
-import jsonapi from "jsonapi-parse";
 
-const Blogs = (props) => {
+const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   useEffect(() => {
     function fetchData() {
@@ -14,9 +12,17 @@ const Blogs = (props) => {
     }
     fetchData();
   }, []);
-  console.log(blogs);
+
+  const onBlogDelete = (id) => {
+    setBlogs(
+      blogs.filter((item) => {
+        return item.data.id !== id;
+      })
+    );
+  };
+
   return (
-    <div className="blogs">
+    <div className="flex flex-wrap">
       {blogs &&
         blogs.map((item, index) => {
           let image = item?.included
@@ -29,6 +35,7 @@ const Blogs = (props) => {
               body={item.data.attributes.body.processed}
               id={item.data.id}
               img={image}
+              onDelete={onBlogDelete}
               // {item.included[0] ? item.included[0].attributes.uri.url : null  }// img={item.included[0].attributes.uri.url}
             ></BlogCard>
           );

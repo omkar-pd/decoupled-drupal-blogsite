@@ -24,17 +24,20 @@ export default function DetailedBlog(props) {
       });
     }
     fetchData();
+    // eslint-disable-next-line
   }, [id]);
   return (
     <div className="detailed-blog">
-      <h1>{detailedBlog.title}</h1>
+      <h5 className="text-gray-900 font-bold text-5xl text-center tracking-tight mb-2">
+        {detailedBlog.title}
+      </h5>
       <div>
         <p>By Admin</p>
       </div>
       <div className="blog-image">
         <img src={detailedBlog.image} alt="" />
       </div>
-      <div className="blog-body">{detailedBlog.body}</div>
+      <div className="blog-body m-3">{detailedBlog.body}</div>
     </div>
   );
 }

@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
-import { Input } from "../Components/Input";
 import { handleLogin } from "../Services/auth";
-import "./css/Login.css";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/userContext";
 import { useContext } from "react";
@@ -28,23 +26,43 @@ export const Login = () => {
   };
 
   return (
-    <div className="login-form">
-      <h2>Login</h2>
-      <form onSubmit={onSubmitHandler}>
-        <Input
-          type="text"
-          label="Enter Username"
-          name="email-username"
-          ref={usernameRef}
-        />
-        <Input
-          type="password"
-          label="Enter Password"
-          name="password"
-          ref={passwordRef}
-        />
-        <Input type="submit" />
-      </form>
+    <div className="h-screen flex bg-gray-bg1">
+      <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
+        <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
+          Log in to your account 🔐
+        </h1>
+
+        <form onSubmit={onSubmitHandler}>
+          <div>
+            <label htmlFor="Username">Username</label>
+            <input
+              type="text"
+              className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4`}
+              id="Username"
+              placeholder="Your Username"
+              ref={usernameRef}
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              className={`w-full p-2 text-primary border rounded-md outline-none text-sm transition duration-150 ease-in-out mb-4`}
+              id="password"
+              placeholder="Your Password"
+              ref={passwordRef}
+            />
+          </div>
+
+          <div className="flex justify-center items-center mt-6">
+            <button
+              className={`bg-green py-2 px-4 text-sm text-white rounded border border-green focus:outline-none focus:border-green-dark`}
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

@@ -3,7 +3,7 @@ import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from "./NavElements";
 import { Context } from "../Context/userContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { handleLogout, isLoggedIn } from "../Services/auth";
+import { handleLogout } from "../Services/auth";
 const Navbar = () => {
   const navigate = useNavigate();
   const { state, dispatch } = useContext(Context);
@@ -21,10 +21,10 @@ const Navbar = () => {
       <Nav>
         <Bars />
         <NavMenu>
-          <NavLink to="/create">Create</NavLink>
-          <NavLink to="/update">Update</NavLink>
+          {state.isAuthenticated && <NavLink to="/blog/create">Create</NavLink>}
+          {/* <NavLink to="/update">Update</NavLink> */}
           <NavLink to="/">Blogs</NavLink>
-          <NavLink to="/sign-up">Sign Up</NavLink>
+          {!state.isAuthenticated && <NavLink to="/sign-up">Sign Up</NavLink>}
         </NavMenu>
         <NavBtn>
           {state.isAuthenticated ? (
