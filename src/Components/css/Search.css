@@ -1,0 +1,5 @@
+.toggled {
+  transition: 2s all ease-in-out;
+  /* margin-right: 100px; */
+  opacity: 1;
+}

@@ -2,23 +2,30 @@ import axios from "axios";
 import { isLoggedIn } from "./auth";
 
 export const createJsonBody = (data) => {
-  const relationship = data.image
+  const relationship = {};
+  relationship.field_image = data.image
     ? {
-        field_image: {
-          data: {
-            type: "file--file",
-            id: data.image.id,
-            meta: {
-              alt: "json-image",
-              title: data.image.attributes.filename,
-              width: 400,
-              height: 400,
-            },
+        data: {
+          type: "file--file",
+          id: data.image.id,
+          meta: {
+            alt: "json-image",
+            title: data.image.attributes.filename,
+            width: 400,
+            height: 400,
           },
         },
       }
     : undefined;
 
+  relationship.field_tags = data.category
+    ? {
+        data: {
+          type: "taxonomy_term--tags",
+          id: "2a3a8100-5c0a-4819-89b3-74daa0ca7ae0",
+        },
+      }
+    : undefined;
   const body = {
     data: {
       type: "node--article",
@@ -31,18 +38,6 @@ export const createJsonBody = (data) => {
         },
       },
       relationships: relationship,
-      // field_image: {
-      //   data: {
-      //     type: "file--file",
-      //     id: data.image.id,
-      //     meta: {
-      //       alt: "json-image",
-      //       title: data.image.attributes.filename,
-      //       width: 400,
-      //       height: 400,
-      //     },
-      //   },
-      // },
     },
   };
   return body;

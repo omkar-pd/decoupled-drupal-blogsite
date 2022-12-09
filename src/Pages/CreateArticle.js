@@ -1,13 +1,17 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { createArticle } from "../Services/create";
 import { useNavigate } from "react-router-dom";
 // import { uploadImage } from "../Services/create";
+import { fetchTaxonomyTerms } from "../Services/fetchData";
+
 export const CreateArticle = () => {
   const [image, setImage] = useState();
+  const [term, SetTerm] = useState();
   const navigate = useNavigate();
   const titleRef = useRef();
   const bodyRef = useRef();
   const summaryRef = useRef();
+  const categoryRef = useRef();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -16,12 +20,21 @@ export const CreateArticle = () => {
       summary: summaryRef.current.value,
       body: bodyRef.current.value,
       image: image,
+      category: categoryRef.current.value,
     };
     const res = await createArticle(data);
     if (res) {
       navigate(`/blog/${res.id}`);
     }
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetchTaxonomyTerms();
+      SetTerm(res);
+    }
+    fetchData();
+  }, []);
 
   const onFileUpload = async (e) => {
     const img = e.target.files[0];
@@ -98,7 +111,24 @@ export const CreateArticle = () => {
             required
           />
         </div>
-
+        <div className="my-3 py-3">
+          <label htmlFor="underline_select">Select Category</label>
+          <select
+            id="underline_select"
+            className="block p-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+            ref={categoryRef}
+          >
+            {term &&
+              term.map((item, id) => {
+                return (
+                  <option key={id} value={item.id}>
+                    {item.attributes.name}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
         <div className="flex justify-center">
           <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
             Submit

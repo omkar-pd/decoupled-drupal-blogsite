@@ -20,7 +20,6 @@ const Blogs = () => {
       })
     );
   };
-
   return (
     <div className="flex flex-wrap">
       {blogs &&
