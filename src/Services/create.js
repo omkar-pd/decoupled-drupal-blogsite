@@ -84,7 +84,6 @@ export const uploadImage = async (image) => {
           },
         }
       );
-
       return res.data.data;
     } catch (error) {
       return false;

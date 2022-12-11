@@ -73,3 +73,15 @@ export const fetchArticlesByTag = async (tagName) => {
     return false;
   }
 };
+
+export const fetchArticlesByTitle = async (query) => {
+  try {
+    const res = await axios.get(
+      `${baseUrl}jsonapi/node/article?filter[title][operator]=CONTAINS&filter[title][value]=${query}`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

@@ -9,10 +9,11 @@ import { Login } from "./Pages/Login";
 import { ContextProvider } from "./Context/userContext";
 import { CreateArticle } from "./Pages/CreateArticle";
 import { Update } from "./Pages/Update";
+import { SearchResults } from "./Pages/SearchResults";
 function App() {
   return (
     <ContextProvider>
-      <div className="bg-slate-100 pb-20">
+      <div className="bg-slate-100 pb-10">
         <Router>
           <Navbar></Navbar>
           <Routes>
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signin" element={<Login />} />
             <Route path="/blog/create" element={<CreateArticle />} />
             <Route path="/blog/update/:id" element={<Update />} />
+            <Route path="/blog/search/:query" element={<SearchResults />} />
           </Routes>
         </Router>
       </div>

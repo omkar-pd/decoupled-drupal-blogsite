@@ -22,7 +22,7 @@ const BlogCard = (props) => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mt-4 h-30">
+    <div className="max-w-lg  mt-4 h-30 mx-auto">
       <div className="bg-white shadow-lg border border-gray-200 rounded-lg max-w-sm mb-5 h-full ">
         <img
           className="rounded-t-lg h-48 object-cover w-screen"
@@ -51,7 +51,8 @@ const BlogCard = (props) => {
               <FaTrash className="pointer-events-none" />
             </button>
             <Link to={`blog/update/${props.id}`}>
-            <FaEdit></FaEdit></Link>
+              <FaEdit></FaEdit>
+            </Link>
           </div>
         )}
       </div>
