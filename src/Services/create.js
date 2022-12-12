@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+
 import { isLoggedIn } from "./auth";
 
 export const createJsonBody = (data) => {
@@ -22,7 +24,7 @@ export const createJsonBody = (data) => {
     ? {
         data: {
           type: "taxonomy_term--tags",
-          id: "2a3a8100-5c0a-4819-89b3-74daa0ca7ae0",
+          id: data.category,
         },
       }
     : undefined;
@@ -61,8 +63,16 @@ export const createArticle = async (data) => {
           },
         }
       );
+      toast.success("Article Created Successfully !", {
+        theme: "dark",
+        position: "top-center",
+      });
       return res.data.data;
     } catch (error) {
+      toast.error("Something Went Wrong !", {
+        theme: "dark",
+        position: "top-center",
+      });
       return false;
     }
   }

@@ -29,12 +29,10 @@ const BlogCard = (props) => {
           src={img}
           alt="blog-img"
         />
-
         <div className="p-5 h-52">
           <h5 className="text-gray-900 font-bold text-2xl tracking-tight mb-2">
             {`${props.title.substring(0, 25)}...`}
           </h5>
-
           <p className="font-normal text-gray-700 mb-3">
             {`${body.substring(0, 100)}...`}
           </p>

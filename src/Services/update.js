@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { isLoggedIn } from "./auth";
 import { createJsonBody } from "./create";
 const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -20,8 +21,16 @@ export const update = async (data) => {
           },
         }
       );
+      toast.success("Article Updated Successfully !", {
+        theme: "dark",
+        position: "top-center",
+      });
       return res.data.data;
     } catch (error) {
+      toast.error("Something Went Wrong, you don't have permission to edit this blog !", {
+        theme: "dark",
+        position: "top-center",
+      });
       return false;
     }
   }

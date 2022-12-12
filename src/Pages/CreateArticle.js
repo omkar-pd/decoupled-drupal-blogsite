@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { createArticle } from "../Services/create";
 import { useNavigate } from "react-router-dom";
-// import { uploadImage } from "../Services/create";
 import { fetchTaxonomyTerms } from "../Services/fetchData";
 
 export const CreateArticle = () => {
@@ -117,6 +116,7 @@ export const CreateArticle = () => {
             id="underline_select"
             className="block p-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
+            defaultValue={term && term[0].id}
             ref={categoryRef}
           >
             {term &&

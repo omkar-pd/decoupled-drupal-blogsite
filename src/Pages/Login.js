@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { toast } from "react-toastify";
 import { handleLogin } from "../Services/auth";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/userContext";
@@ -21,7 +22,19 @@ export const Login = () => {
       dispatch({
         type: "LOGIN",
       });
+      toast.success("Logged In Successfully !", {
+        theme: "dark",
+        position: "top-center",
+      });
       navigate("/");
+    } else {
+      toast.error(
+        "Something went wrong, Please Check your Username and Password !",
+        {
+          theme: "dark",
+          position: "top-center",
+        }
+      );
     }
   };
 

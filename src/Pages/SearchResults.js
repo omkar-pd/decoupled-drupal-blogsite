@@ -13,7 +13,6 @@ export const SearchResults = () => {
 
     fetchData();
   }, [query]);
-  console.log(blogs);
   return (
     <div className="flex justify-center items-center flex-col my-4">
       <h5 className="text-gray-900 font-bold text-3xl tracking-tight mb-2">
