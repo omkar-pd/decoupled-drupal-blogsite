@@ -27,7 +27,7 @@ export const update = async (data) => {
       });
       return res.data.data;
     } catch (error) {
-      toast.error("Something Went Wrong, you don't have permission to edit this blog !", {
+      toast.error("you don't have permission to edit this blog !", {
         theme: "dark",
         position: "top-center",
       });

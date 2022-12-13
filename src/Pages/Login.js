@@ -39,7 +39,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="h-screen flex bg-gray-bg1">
+    <div className="h-screen flex bg-gray-bg">
       <div className="w-full max-w-md m-auto bg-white rounded-lg border border-primaryBorder shadow-default py-10 px-16">
         <h1 className="text-2xl font-medium text-primary mt-4 mb-12 text-center">
           Log in to your account 🔐
@@ -68,9 +68,7 @@ export const Login = () => {
           </div>
 
           <div className="flex justify-center items-center mt-6">
-            <button
-              className={`bg-green py-2 px-4 text-sm text-white rounded border border-green focus:outline-none focus:border-green-dark`}
-            >
+            <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
               Login
             </button>
           </div>

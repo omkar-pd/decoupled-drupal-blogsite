@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 function App() {
   return (
     <ContextProvider>
-      <div className="bg-slate-100 pb-10">
+      <div className="bg-slate-100 pb-10 min-h-screen">
         <Router>
           <Navbar></Navbar>
           <ToastContainer />

@@ -42,7 +42,7 @@ export const FilterArticles = () => {
 
   const RenderBlogs = blogs ? (
     blogs.map((item, index) => {
-      let image = item?.included ? item.included[0].attributes.uri.url : null;
+      let image = item?.image ? item.image.attributes.uri.url : null;
       return (
         <BlogCard
           key={index}
@@ -50,6 +50,8 @@ export const FilterArticles = () => {
           body={item.data.attributes.body.processed}
           id={item.data.id}
           img={image}
+          author={item.user}
+          tag={item.tag}
           onDelete={onBlogDelete}
         ></BlogCard>
       );

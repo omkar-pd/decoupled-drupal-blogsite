@@ -42,11 +42,14 @@ export const Update = () => {
     }
   };
   return (
-    <div className=" lg:w-4/6 mx-auto shadow-lg p-5">
+    <div className=" bg-white lg:w-4/6 mx-auto shadow-lg p-5 min-h-screen h-auto flex flex-col mt-20">
       <h5 className="text-gray-900 font-bold text-2xl text-center tracking-tight mb-2">
         Update Blog
       </h5>
-      <form onSubmit={onSubmitHandler} className="w-full">
+      <form
+        onSubmit={onSubmitHandler}
+        className="w-full  flex flex-col justify-between min-h-screen h-auto bg-white"
+      >
         <div className="my-3 py-3">
           <label
             htmlFor="title"
@@ -74,7 +77,7 @@ export const Update = () => {
 
             <textarea
               id="summary"
-              rows="4"
+              rows="4 "
               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Write you blog summary..."
               ref={summaryRef}
@@ -92,7 +95,7 @@ export const Update = () => {
           </label>
           <textarea
             id="body"
-            rows="4"
+            rows="6"
             className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write you blog body..."
             ref={bodyRef}
@@ -100,22 +103,7 @@ export const Update = () => {
             defaultValue={detailedBlog.body}
           />
         </div>
-        {/* <div className="my-3 py-3">
-          <label
-            htmlFor="img"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Select image:
-          </label>
-          <input
-            type="file"
-            id="img"
-            name="img"
-            accept="image/*"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            required
-          />
-        </div> */}
+
         <div className="flex justify-center">
           <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
             Update

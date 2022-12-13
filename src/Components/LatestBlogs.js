@@ -25,6 +25,7 @@ export default function LatestBlogs() {
       })
     );
   };
+  console.log(blogs);
   return (
     <div className="my-4">
       <h5 className="text-gray-900 font-bold text-4xl text-center tracking-tight mb-2">
@@ -33,9 +34,7 @@ export default function LatestBlogs() {
       <div className="flex flex-wrap">
         {blogs &&
           blogs.map((item, index) => {
-            let image = item?.included
-              ? item.included[0].attributes.uri.url
-              : null;
+            let image = item?.image ? item.image.attributes.uri.url : null;
             return (
               <BlogCard
                 key={index}
@@ -43,8 +42,9 @@ export default function LatestBlogs() {
                 body={item.data.attributes.body.processed}
                 id={item.data.id}
                 img={image}
+                author={item.user}
+                tag={item.tag}
                 onDelete={onBlogDelete}
-                // {item.included[0] ? item.included[0].attributes.uri.url : null  }// img={item.included[0].attributes.uri.url}
               ></BlogCard>
             );
           })}

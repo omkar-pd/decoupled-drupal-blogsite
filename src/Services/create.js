@@ -63,13 +63,13 @@ export const createArticle = async (data) => {
           },
         }
       );
-      toast.success("Article Created Successfully !", {
+      toast.success("Blog Created Successfully!", {
         theme: "dark",
         position: "top-center",
       });
       return res.data.data;
     } catch (error) {
-      toast.error("Something Went Wrong !", {
+      toast.error("Something Went Wrong!", {
         theme: "dark",
         position: "top-center",
       });

@@ -14,7 +14,7 @@ export const SearchResults = () => {
     fetchData();
   }, [query]);
   return (
-    <div className="flex justify-center items-center flex-col my-4">
+    <div className="flex justify-center items-center flex-col my-4 h-full w-full">
       <h5 className="text-gray-900 font-bold text-3xl tracking-tight mb-2">
         {`Search Results For ${query}`}{" "}
       </h5>

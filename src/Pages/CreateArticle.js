@@ -40,7 +40,7 @@ export const CreateArticle = () => {
     setImage(img);
   };
   return (
-    <div className=" lg:w-4/6 mx-auto shadow-lg p-5">
+    <div className=" lg:w-4/6 mx-auto shadow-lg p-5 mt-20 bg-white">
       <h5 className="text-gray-900 font-bold text-2xl text-center tracking-tight mb-2">
         Create Blog
       </h5>

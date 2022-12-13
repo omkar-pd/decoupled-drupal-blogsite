@@ -4,7 +4,8 @@ import { FilterArticles } from "../Components/FilterArticles";
 export const Homepage = () => {
   return (
     <>
-      <LatestBlogs></LatestBlogs>;<FilterArticles></FilterArticles>
+      <LatestBlogs></LatestBlogs>;
+      <FilterArticles></FilterArticles>
     </>
   );
 };

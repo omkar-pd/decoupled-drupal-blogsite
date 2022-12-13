@@ -13,19 +13,16 @@ export const deleteArticle = async (id) => {
         },
       });
 
-      toast.success("Article Deleted Successfully !", {
+      toast.success("Blog Deleted Successfully!", {
         theme: "dark",
         position: "top-center",
       });
       return res;
     } catch (error) {
-      toast.error(
-        "Something Went Wrong, Check if you have permission to deleted Article !",
-        {
-          theme: "dark",
-          position: "top-center",
-        }
-      );
+      toast.error("You don't have permission to delete this Blog!", {
+        theme: "dark",
+        position: "top-center",
+      });
       return false;
     }
   }

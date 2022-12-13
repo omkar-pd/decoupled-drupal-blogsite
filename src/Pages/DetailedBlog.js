@@ -42,7 +42,7 @@ export default function DetailedBlog() {
     }
   };
   return (
-    <div className="detailed-blog">
+    <div className="detailed-blog bg-white">
       <div className="flex justify-between">
         <h5 className="text-gray-900 font-bold text-5xl tracking-tight mb-2">
           {detailedBlog.title}
