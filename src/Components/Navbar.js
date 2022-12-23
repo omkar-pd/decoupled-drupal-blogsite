@@ -31,7 +31,7 @@ const Navbar = () => {
           <NavLink to="/">Home</NavLink>
           {state.isAuthenticated && <NavLink to="/blog/create">Create</NavLink>}
           <NavLink to="/blogs">Blogs</NavLink>
-          {!state.isAuthenticated && <NavLink to="/sign-up">Sign Up</NavLink>}
+          {!state.isAuthenticated && <NavLink to="/register">Sign Up</NavLink>}
         </NavMenu>
         <NavMenu>
           <div className={`${isToggled && "toggled"} `}>

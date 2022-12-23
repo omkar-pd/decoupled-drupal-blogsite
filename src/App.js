@@ -12,6 +12,7 @@ import { Update } from "./Pages/Update";
 import { SearchResults } from "./Pages/SearchResults";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.min.css";
+import { Register } from "./Pages/Register";
 function App() {
   return (
     <ContextProvider>
@@ -24,6 +25,7 @@ function App() {
             <Route path="/blogs" element={<Blogs />} />
             <Route path="blog/:id" element={<DetailedBlog />} />
             <Route path="/signin" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/blog/create" element={<CreateArticle />} />
             <Route path="/blog/update/:id" element={<Update />} />
             <Route path="/blog/search/:query" element={<SearchResults />} />

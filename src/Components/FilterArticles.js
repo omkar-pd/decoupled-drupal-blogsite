@@ -74,7 +74,7 @@ export const FilterArticles = () => {
         </label>
         <select
           id="underline_select"
-          className="block py-2.5  w-full text-sm text-gray-500 bg-transparent  appearance-none dark:text-gray-400 focus:outline-none   border-2 border-r-primary px-2"
+          className="block py-2.5  w-full text-sm text-gray-500 bg-white  appearance-none dark:text-gray-400 focus:outline-none   border-2 border-r-primary px-2"
           onChange={onTermSelect}
           defaultValue={null}
         >
@@ -90,24 +90,6 @@ export const FilterArticles = () => {
         </select>
       </div>
       <div className="flex flex-wrap">
-        {/* {RenderBlogs} */}
-        {/* {blogs
-          ? blogs.map((item, index) => {
-              let image = item?.included
-                ? item.included[0].attributes.uri.url
-                : null;
-              return (
-                <BlogCard
-                  key={index}
-                  title={item.data.attributes.title}
-                  body={item.data.attributes.body.processed}
-                  id={item.data.id}
-                  img={image}
-                  onDelete={onBlogDelete}
-                ></BlogCard>
-              );
-            })
-          : `No Result Found for ${selectedTerm}`} */}
         {selectedTerm === "all" ? <Blogs></Blogs> : RenderBlogs}
       </div>
     </div>

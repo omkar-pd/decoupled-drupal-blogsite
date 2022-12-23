@@ -25,7 +25,6 @@ export default function LatestBlogs() {
       })
     );
   };
-  console.log(blogs);
   return (
     <div className="my-4">
       <h5 className="text-gray-900 font-bold text-4xl text-center tracking-tight mb-2">
