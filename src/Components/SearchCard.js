@@ -5,7 +5,7 @@ export const SearchCard = (props) => {
   const body = props.body.replace(regex, "");
 
   return (
-    <div className="w-4/6  h-full md:h-[225px] flex shadow-md p-3 rounded-lg bg-white text-white my-4 flex-col md:flex-row">
+    <div className="w-4/6  h-full md:h-[280px] flex shadow-md p-3 rounded-lg bg-white text-white my-4 flex-col md:flex-row">
       <div className="md:max-h-48 md:w-[600px]">
         <img
           src="https://images.unsplash.com/photo-1668668252875-80088c7eeec1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjA3MDh8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NzA1ODUzOTk&ixlib=rb-4.0.3&q=80&w=400"
@@ -20,7 +20,10 @@ export const SearchCard = (props) => {
         <p className="font-normal text-gray-700 mb-3">
           {`${body.substring(0, 150)}...`}
         </p>
-        <Link to={`/blog/${props.id}`} className="my-5">
+        <Link
+          className="text-black border-2 hover:bg-black  hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center max-w-max"
+          to={`/blog/${props.id}`}
+        >
           Read More
         </Link>
       </div>

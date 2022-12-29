@@ -89,18 +89,32 @@ export const fetchArticlesByTitle = async (query) => {
 };
 
 export const createJsonResponse = (res) => {
-  res.forEach((item, id) => {
-    return item.data.included.forEach((item2) => {
-      if (item2.type === "file--file") {
-        return (res[id].data.image = item2);
+  if (!isNaN(res.length)) {
+    res.forEach((item, id) => {
+      return item.data.included.forEach((item2) => {
+        if (item2.type === "file--file") {
+          return (res[id].data.image = item2);
+        }
+        if (item2.type === "taxonomy_term--tags") {
+          res[id].data.tag = item2;
+        }
+        if (item2.type === "user--user") {
+          res[id].data.user = item2;
+        }
+      });
+    });
+  } else {
+    res.included.forEach((item) => {
+      if (item.type === "file--file") {
+        return (res.data.image = item);
       }
-      if (item2.type === "taxonomy_term--tags") {
-        res[id].data.tag = item2;
+      if (item.type === "taxonomy_term--tags") {
+        res.data.tag = item;
       }
-      if (item2.type === "user--user") {
-        res[id].data.user = item2;
+      if (item.type === "user--user") {
+        res.data.user = item;
       }
     });
-  });
+  }
   return res;
 };

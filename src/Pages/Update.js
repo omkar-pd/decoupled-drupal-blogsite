@@ -3,14 +3,15 @@ import { useParams } from "react-router-dom";
 import { fetchDetailedArticle } from "../Services/fetchData";
 import { update } from "../Services/update";
 import { useNavigate } from "react-router-dom";
+import { CKEditor } from "ckeditor4-react";
 
 export const Update = () => {
   const regex = /(<([^>]+)>)/gi;
+  const [bodyData, SetBody] = useState();
   const { id } = useParams();
   const navigate = useNavigate();
   const [detailedBlog, setDetailedBlog] = useState({});
   const titleRef = useRef();
-  const bodyRef = useRef();
   const summaryRef = useRef();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ export const Update = () => {
         setDetailedBlog({
           title: res.data.attributes.title,
           summary: res.data.attributes.body.summary.replace(regex, ""),
-          body: res.data.attributes.body.value.replace(regex, ""),
+          body: res.data.attributes.body.value,
         });
       });
     }
@@ -33,13 +34,17 @@ export const Update = () => {
     const data = {
       title: titleRef.current.value,
       summary: summary,
-      body: bodyRef.current.value,
+      body: bodyData,
       id: id,
     };
     const res = await update(data);
     if (res) {
       navigate(`/blog/${res.id}`);
     }
+  };
+  const onBodyChange = async (e) => {
+    const data = await e.editor.getData();
+    SetBody(data);
   };
   return (
     <div className=" bg-white lg:w-4/6 mx-auto shadow-lg p-5 min-h-screen h-auto flex flex-col mt-20">
@@ -86,6 +91,7 @@ export const Update = () => {
             ></textarea>
           </div>
         )}
+        <div></div>
         <div className="my-3 py-3">
           <label
             htmlFor="body"
@@ -93,15 +99,9 @@ export const Update = () => {
           >
             Blog Body
           </label>
-          <textarea
-            id="body"
-            rows="6"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write you blog body..."
-            ref={bodyRef}
-            required
-            defaultValue={detailedBlog.body}
-          />
+          {detailedBlog.body && (
+            <CKEditor initData={detailedBlog.body} onChange={onBodyChange} />
+          )}
         </div>
 
         <div className="flex justify-center">

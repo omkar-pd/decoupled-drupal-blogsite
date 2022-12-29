@@ -2,13 +2,15 @@ import React, { useRef, useState, useEffect } from "react";
 import { createArticle } from "../Services/create";
 import { useNavigate } from "react-router-dom";
 import { fetchTaxonomyTerms } from "../Services/fetchData";
+import { CKEditor } from "ckeditor4-react";
 
 export const CreateArticle = () => {
   const [image, setImage] = useState();
   const [term, SetTerm] = useState();
+  const [bodyData, SetBody] = useState();
   const navigate = useNavigate();
   const titleRef = useRef();
-  const bodyRef = useRef();
+  // const bodyRef = useRef();
   const summaryRef = useRef();
   const categoryRef = useRef();
 
@@ -17,7 +19,8 @@ export const CreateArticle = () => {
     const data = {
       title: titleRef.current.value,
       summary: summaryRef.current.value,
-      body: bodyRef.current.value,
+      // body: bodyRef.current.value,
+      body: bodyData,
       image: image,
       category: categoryRef.current.value,
     };
@@ -39,6 +42,12 @@ export const CreateArticle = () => {
     const img = e.target.files[0];
     setImage(img);
   };
+
+  const onBodyChange = async (e) => {
+    const data = await e.editor.getData();
+    SetBody(data);
+  };
+
   return (
     <div className=" lg:w-4/6 mx-auto shadow-lg p-5 mt-20 bg-white">
       <h5 className="text-gray-900 font-bold text-2xl text-center tracking-tight mb-2">
@@ -84,14 +93,7 @@ export const CreateArticle = () => {
           >
             Blog Body
           </label>
-          <textarea
-            id="body"
-            rows="4"
-            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Write you blog body..."
-            ref={bodyRef}
-            required
-          />
+          <CKEditor onChange={onBodyChange} />
         </div>
         <div className="my-3 py-3">
           <label
