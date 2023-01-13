@@ -7,9 +7,16 @@ import { useContext } from "react";
 import { deleteArticle } from "../Services/deleteArticle";
 
 const BlogCard = (props) => {
+  const parse = require("html-react-parser");
   const { state } = useContext(Context);
   const regex = /(<([^>]+)>)/gi;
-  const body = props.body.replace(regex, "");
+  let body = props.body.replace(regex, "");
+  const newR= /[&\/\\#,+()$~%.'":*?<>{}]/g;
+  body = body.replace(newR, '')
+  // let body = props.body.substring(0,100)
+  // body = parse(body)
+
+  // console.log(props.body);
   const base_url = process.env.REACT_APP_BASE_URL;
   const img = props.img ? base_url + props.img : fallback;
 
@@ -38,6 +45,7 @@ const BlogCard = (props) => {
           </h5>
           <p className="font-normal text-gray-700 mb-3">
             {`${body.substring(0, 100)}...`}
+            {/* {`${body} ...`}             */}
           </p>
           <Link
             className="text-black border-2 hover:bg-black  hover:text-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center"

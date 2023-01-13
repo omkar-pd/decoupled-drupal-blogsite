@@ -35,7 +35,7 @@ export const createJsonBody = (data) => {
         title: data.title,
         body: {
           value: data.body,
-          format: "basic_html",
+          // format: "full_html",
           summary: data.summary,
         },
       },

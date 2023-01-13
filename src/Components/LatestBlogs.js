@@ -38,7 +38,7 @@ export default function LatestBlogs() {
               <BlogCard
                 key={index}
                 title={item.data.attributes.title}
-                body={item.data.attributes.body.processed}
+                body={item.data.attributes.body.value}
                 id={item.data.id}
                 img={image}
                 author={item.user}

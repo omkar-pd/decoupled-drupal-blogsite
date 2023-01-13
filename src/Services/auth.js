@@ -1,4 +1,7 @@
 import axios from "axios";
+import { Context } from "../Context/userContext";
+import { useContext } from "react";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const handleLogin = async (username, password) => {
   const drupallogIn = await drupalLogIn(username, password);
@@ -50,7 +53,7 @@ const fetchOauthToken = async (username, password) => {
   }
 };
 
-const saveToken = (json) => {
+export const saveToken = (json) => {
   const token = { ...json };
   token.date = Math.floor(Date.now() / 1000);
   token.expirationDate = token.date + token.expires_in;
@@ -101,13 +104,11 @@ export const isLoggedIn = async () => {
 
   // If not, return false as the user is not loggedIn.
   if (token === null) {
-    // return Promise.resolve(false);
     return false;
   }
 
   // Check if access token is still valid
   if (token !== null && token.expirationDate > Math.floor(Date.now() / 1000)) {
-    // return Promise.resolve(token);
     return token;
   }
   // If not, use refresh token and generate new token
@@ -115,7 +116,7 @@ export const isLoggedIn = async () => {
     let formData = new FormData();
     formData.append("client_id", "MhH1oYtS1BgyKwWzskUIZs6SA3Ynhw4sMj4-gBhQJQU");
     formData.append("client_secret", "demo");
-    formData.append("scope", "content_editor");
+    formData.append("scope", "authenticated_user");
     formData.append("grant_type", "refresh_token");
     formData.append("refresh_token", token.refresh_token);
     try {
@@ -133,4 +134,74 @@ export const isLoggedIn = async () => {
       return false;
     }
   }
+};
+
+export const checkToken = async () => {
+  const token = await isLoggedIn();
+  await axios
+    .get("/jsonapi/node/article", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((response) => {})
+    .catch(async (error) => {
+      if (error.response.status === 401) {
+        await regenerateToken();
+      } else {
+        console.error(error);
+      }
+    });
+};
+
+export const regenerateToken = async () => {
+  const token = await isLoggedIn();
+  // const user = await getCurrentUserDetails();
+
+  if (token !== null) {
+    let formData = new FormData();
+    formData.append("client_id", "MhH1oYtS1BgyKwWzskUIZs6SA3Ynhw4sMj4-gBhQJQU");
+    formData.append("client_secret", "demo");
+    formData.append("scope", "content_editor");
+    formData.append("grant_type", "refresh_token");
+    formData.append("refresh_token", token.refresh_token);
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${baseUrl}oauth/token`,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (response.status === 200) {
+        const token = await saveToken(response.data);
+        return token;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+};
+
+export const getCurrentUserDetails = async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const token = await isLoggedIn();
+  const userInfo = {
+    token: token,
+  };
+  try {
+    const res = await axios.get(
+      `${baseUrl}jsonapi/user/user?filter[uid]=${user.current_user.uid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      }
+    );
+    userInfo.user = res.data.data[0];
+    return userInfo;
+  } catch (err) {
+    console.log(err);
+  }
+
+  return userInfo;
 };

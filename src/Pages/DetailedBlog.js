@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { fetchDetailedArticle } from "../Services/fetchData";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaHeart, FaRegHeart } from "react-icons/fa";
 import "./css/DetailedBlog.css";
 import { Link } from "react-router-dom";
 import { Context } from "../Context/userContext";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteArticle } from "../Services/deleteArticle";
+import { isLoggedIn } from "../Services/auth";
 import { createJsonResponse } from "../Services/fetchData";
+import { removeFromFav, Fav, isFavorite } from "../Services/Fav";
 
 export default function DetailedBlog() {
-  const parse = require("html-react-parser");
-  const { state } = useContext(Context);
   const [detailedBlog, setDetailedBlog] = useState({});
+  const [isFav, setIsFav] = useState();
+  const parse = require("html-react-parser");
+  const { dispatch, state } = useContext(Context);
   const { id } = useParams();
   const navigate = useNavigate();
   const base_url = process.env.REACT_APP_BASE_URL;
@@ -23,6 +25,7 @@ export default function DetailedBlog() {
       fetchDetailedArticle(id).then((res) => {
         const jsonRes = createJsonResponse(res);
         setDetailedBlog({
+          id: res.data.id,
           title: res.data.attributes.title,
           body: parse(res.data.attributes.body.value),
           image: `${base_url}${jsonRes.data.image.attributes.uri.url}`,
@@ -32,6 +35,11 @@ export default function DetailedBlog() {
       });
     }
     fetchData();
+    const checkIsFav = async () => {
+      const user = await isLoggedIn();
+      user && isFavorite(id).then((res) => setIsFav(res));
+    };
+    checkIsFav();
     // eslint-disable-next-line
   }, [id]);
 
@@ -41,6 +49,23 @@ export default function DetailedBlog() {
       navigate("/");
     }
   };
+
+  const AddBlogToFav = async () => {
+    await Fav(detailedBlog.id);
+    setIsFav(true);
+    // dispatch({
+    //   type: "LOGIN",
+    // });
+  };
+
+  const removeFav = async () => {
+    await removeFromFav(id);
+    // dispatch({
+    // type: "LOGIN",
+    // });
+    setIsFav(false);
+  };
+
   return (
     <div className="detailed-blog bg-white">
       <div className="flex justify-between flex-col md:flex-row">
@@ -58,8 +83,17 @@ export default function DetailedBlog() {
           </div>
         )}
       </div>
-      <div>
+      <div className="flex justify-between">
         <p>By {detailedBlog.user}</p>
+        {state.isAuthenticated && (
+          <p className="m-2">
+            {isFav ? (
+              <FaHeart onClick={removeFav} />
+            ) : (
+              <FaRegHeart onClick={AddBlogToFav} />
+            )}
+          </p>
+        )}
       </div>
       <div className="blog-image">
         <img src={detailedBlog.image} alt="" />

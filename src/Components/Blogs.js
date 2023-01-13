@@ -18,6 +18,7 @@ const Blogs = () => {
       })
     );
   };
+  console.log('in blogs');
   return (
     <div className="flex flex-wrap">
       {blogs &&
@@ -27,7 +28,7 @@ const Blogs = () => {
             <BlogCard
               key={index}
               title={item.data.attributes.title}
-              body={item.data.attributes.body.processed}
+              body={item.data.attributes.body.value}
               id={item.data.id}
               img={image}
               author={item.user}
