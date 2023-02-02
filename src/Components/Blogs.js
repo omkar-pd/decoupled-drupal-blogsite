@@ -18,7 +18,6 @@ const Blogs = () => {
       })
     );
   };
-  console.log('in blogs');
   return (
     <div className="flex flex-wrap">
       {blogs &&

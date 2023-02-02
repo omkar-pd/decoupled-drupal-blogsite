@@ -11,12 +11,10 @@ const BlogCard = (props) => {
   const { state } = useContext(Context);
   const regex = /(<([^>]+)>)/gi;
   let body = props.body.replace(regex, "");
-  const newR= /[&\/\\#,+()$~%.'":*?<>{}]/g;
-  body = body.replace(newR, '')
+  // const newR= /[&\/\\#,+()$~%.'":*?<>{}]/g;
+  // body = body.replace(newR, '')
   // let body = props.body.substring(0,100)
   // body = parse(body)
-
-  // console.log(props.body);
   const base_url = process.env.REACT_APP_BASE_URL;
   const img = props.img ? base_url + props.img : fallback;
 

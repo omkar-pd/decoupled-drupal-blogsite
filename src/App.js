@@ -12,6 +12,7 @@ import { Update } from "./Pages/Update";
 import { SearchResults } from "./Pages/SearchResults";
 import "react-toastify/dist/ReactToastify.min.css";
 import { Register } from "./Pages/Register";
+import { UserProfile } from "./Pages/UserProfile";
 function App() {
   return (
     <ContextProvider>
@@ -28,6 +29,7 @@ function App() {
             <Route path="/blog/create" element={<CreateArticle />} />
             <Route path="/blog/update/:id" element={<Update />} />
             <Route path="/blog/search/:query" element={<SearchResults />} />
+            <Route path="/user/account/:id" element={<UserProfile />} />
           </Routes>
         </Router>
       </div>

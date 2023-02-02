@@ -1,6 +1,4 @@
 import axios from "axios";
-import { Context } from "../Context/userContext";
-import { useContext } from "react";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const handleLogin = async (username, password) => {
@@ -156,7 +154,6 @@ export const checkToken = async () => {
 
 export const regenerateToken = async () => {
   const token = await isLoggedIn();
-  // const user = await getCurrentUserDetails();
 
   if (token !== null) {
     let formData = new FormData();

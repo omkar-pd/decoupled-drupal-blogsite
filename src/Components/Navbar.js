@@ -1,22 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/userContext";
-import { handleLogout } from "../Services/auth";
+import { getCurrentUserDetails, handleLogout } from "../Services/auth";
 import { Search } from "./Search";
 import { FaSearch } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false);
+  const [userId, setUserId] = useState("");
   const [isToggled, SetIsToggled] = useState(false);
   const navigate = useNavigate();
   const { state, dispatch } = useContext(Context);
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      const res = await getCurrentUserDetails();
+      setUserId(res.user.id);
+    };
+    state.isAuthenticated && getCurrentUser();
+  }, [state]);
+
   const onLogout = async () => {
     const res = await handleLogout();
     if (res) {
       dispatch({
         type: "LOGOUT",
       });
+      setUserId("");
       navigate("/signin");
     }
   };
@@ -100,12 +110,30 @@ export default function NavBar() {
               </li>
               <li>
                 {state.isAuthenticated ? (
-                  <NavLink
-                    onClick={onLogout}
-                    className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-                  >
-                    Log Out
-                  </NavLink>
+                  <div className="flex gap-3">
+                    <NavLink to={`/user/account/${userId}`}>
+                      <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                        <svg
+                          className="absolute w-12 h-12 text-gray-400 -left-1"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                    </NavLink>
+                    <NavLink
+                      onClick={onLogout}
+                      className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    >
+                      Log Out
+                    </NavLink>
+                  </div>
                 ) : (
                   <NavLink
                     to="/signin"
