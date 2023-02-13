@@ -1,4 +1,6 @@
 import axios from "axios";
+import jsonapi from "jsonapi-parse";
+import { isLoggedIn } from "./auth";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const fetchArticles = async () => {
@@ -85,6 +87,25 @@ export const fetchArticlesByTitle = async (query) => {
   } catch (error) {
     console.log(error);
     return false;
+  }
+};
+
+export const fetchArticlesByUser = async (uid) => {
+  const token = await isLoggedIn();
+
+  try {
+    const res = await axios.get(
+      `${baseUrl}jsonapi/node/article?filter[uid.id]=${uid}&include=field_image,field_tags,uid`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      }
+    );
+    const parse = jsonapi.parse(res.data);
+    return parse.data;
+  } catch (err) {
+    return err;
   }
 };
 

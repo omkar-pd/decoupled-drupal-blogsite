@@ -7,12 +7,15 @@ export const getUserDetails = async (id) => {
   const token = await isLoggedIn();
 
   try {
-    const res = await axios.get(`${baseUrl}jsonapi/user/user/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token.access_token}`,
-      },
-    });
-
+    const res = await axios.get(
+      `${baseUrl}jsonapi/user/user/${id}?include=user_picture`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      }
+    );
+    res.data.data.attributes.user_picture = res.data?.included[0]?.attributes;
     return res.data;
   } catch (err) {
     return err;
@@ -44,11 +47,12 @@ const isArticleExists = async (Ids) => {
   const articlesIds = articles.map((article) => {
     return article.id;
   });
-  return Ids.filter(item => {
-    if(articlesIds.includes(item)){
+  // eslint-disable-next-line
+  return Ids.filter((item) => {
+    if (articlesIds.includes(item)) {
       return item;
     }
-  })
+  });
   // console.log(favArticleIds);
 };
 const getAllArticles = async () => {

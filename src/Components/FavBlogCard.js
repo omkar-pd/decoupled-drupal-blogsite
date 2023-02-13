@@ -8,7 +8,7 @@ export const FavBlogCard = (props) => {
       <div className="bg-white shadow-lg border border-gray-200 rounded-lg max-w-sm mb-5 h-full ">
         <img
           className="rounded-t-lg h-48 object-cover w-screen"
-          src={props?.image.uri.url}
+          src={props?.image?.uri?.url}
           alt="blog-img"
         />
         <div className="p-5 h-52">
