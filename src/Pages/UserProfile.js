@@ -28,6 +28,7 @@ export const UserProfile = () => {
     };
     fetchUserDetails();
   }, [id]);
+  console.log(blogs);
   return (
     <>
       <div>
@@ -93,22 +94,22 @@ export const UserProfile = () => {
           Blogs
         </h3>
         <div className="flex flex-wrap">
-        {userBlogs &&
-          userBlogs.map((blog, id) => {
-            return (
-              <Fragment key={id}>
-                <FavBlogCard
-                  title={blog.title}
-                  body={blog.body}
-                  image={blog?.field_image}
-                  user={blog?.uid}
-                  tag={blog?.field_tags}
-                  id={blog.id}
-                />
-              </Fragment>
-            );
-          })}
-      </div>
+          {userBlogs &&
+            userBlogs.map((blog, id) => {
+              return (
+                <Fragment key={id}>
+                  <FavBlogCard
+                    title={blog.title}
+                    body={blog.body}
+                    image={blog?.field_image}
+                    user={blog?.uid}
+                    tag={blog?.field_tags}
+                    id={blog.id}
+                  />
+                </Fragment>
+              );
+            })}
+        </div>
       </div>
       <h3 className="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-5xl text-center py-5">
         <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
@@ -122,11 +123,11 @@ export const UserProfile = () => {
             return (
               <Fragment key={id}>
                 <FavBlogCard
-                  title={blog.data.attributes.title}
-                  body={blog.data.attributes.body}
-                  image={blog?.image?.attributes}
-                  user={blog?.user?.attributes}
-                  tag={blog?.tag?.attributes}
+                  title={blog.data.title}
+                  body={blog.data.body}
+                  image={blog?.data.field_image}
+                  user={blog?.data.uid}
+                  tag={blog?.data.field_tags}
                   id={blog.data.id}
                 />
               </Fragment>

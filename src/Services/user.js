@@ -1,4 +1,5 @@
 import axios from "axios";
+import jsonapi from "jsonapi-parse";
 import { isLoggedIn } from "./auth";
 import { createJsonResponse } from "./fetchData";
 const baseUrl = process.env.REACT_APP_BASE_URL;
@@ -31,11 +32,9 @@ export const getUserFavArticles = async (Ids) => {
     const response = await axios.all(
       endpoints.map((endpoint) => axios.get(endpoint))
     );
-    const res1 = await createJsonResponse(response);
-    const result = res1.map((item) => {
-      return item.data;
+    const result = response.map((res) => {
+      return jsonapi.parse(res.data);
     });
-
     return result;
   } catch (error) {
     return error;
@@ -53,7 +52,6 @@ const isArticleExists = async (Ids) => {
       return item;
     }
   });
-  // console.log(favArticleIds);
 };
 const getAllArticles = async () => {
   try {
