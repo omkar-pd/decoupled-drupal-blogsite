@@ -1,7 +1,6 @@
 import axios from "axios";
 import jsonapi from "jsonapi-parse";
 import { isLoggedIn } from "./auth";
-import { createJsonResponse } from "./fetchData";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const getUserDetails = async (id) => {
@@ -16,7 +15,8 @@ export const getUserDetails = async (id) => {
         },
       }
     );
-    res.data.data.attributes.user_picture = res.data?.included[0]?.attributes;
+    res.data.data.attributes.user_picture =
+      res.data?.included && res.data?.included[0]?.attributes;
     return res.data;
   } catch (err) {
     return err;

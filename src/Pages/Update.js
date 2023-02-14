@@ -16,16 +16,15 @@ export const Update = () => {
 
   useEffect(() => {
     // eslint-disable-next-line
-    function fetchData() {
-      fetchDetailedArticle(id).then((res) => {
-        setDetailedBlog({
-          title: res.data.attributes.title,
-          summary: res.data.attributes.body.summary.replace(regex, ""),
-          body: res.data.attributes.body.value,
-        });
+    async function fetchData() {
+      const res = await fetchDetailedArticle(id);
+      setDetailedBlog({
+        title: res.data.attributes.title,
+        summary: res.data.attributes.body.summary.replace(regex, ""),
+        body: res.data.attributes.body.value,
       });
     }
-    fetchData();
+      fetchData();
     // eslint-disable-next-line
   }, [id]);
   const onSubmitHandler = async (e) => {

@@ -85,7 +85,7 @@ const getFavPosts = async (token, user_id) => {
 export const isFavorite = async (postID) => {
   let isFavorite = false;
   const userInfo = await getCurrentUserDetails();
-  
+
   const FavPosts = await getFavPosts(userInfo.token, userInfo.user.id);
   FavPosts.forEach((post) => {
     if (post.id === postID) {

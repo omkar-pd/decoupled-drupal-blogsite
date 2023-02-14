@@ -71,17 +71,16 @@ const drupalLogout = async () => {
   const logoutoken = oauthToken.access_token;
   if (logoutoken) {
     try {
-      const res = await axios
-        .get(`http://decoupled-drupal.co/user/logout?_format=json`, {
+      const res = await axios.get(
+        `http://decoupled-drupal.co/user/logout?_format=json`,
+        {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${logoutoken}`,
           },
-        })
-        .then((res) => {
-          return res.status;
-        });
-      return res;
+        }
+      );
+      return res.status;
     } catch (error) {
       return false;
     }

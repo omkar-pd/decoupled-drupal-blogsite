@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getUserDetails, getUserFavArticles } from "../Services/user";
 import { FavBlogCard } from "../Components/FavBlogCard";
 import { fetchArticlesByUser } from "../Services/fetchData";
+import BlogCard from "../Components/BlogCard";
 export const UserProfile = () => {
   const [blogs, setBlogs] = useState([]);
   const [profile, setProfile] = useState([]);
@@ -12,11 +13,11 @@ export const UserProfile = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const res = await getUserDetails(id);
-      setProfile(res.data.attributes);
+      setProfile(res.data?.attributes);
 
       const user_blogs = await fetchArticlesByUser(id);
       setUserBlogs(user_blogs);
-      const Ids = res.data.relationships?.field_add_to_fav?.data
+      const Ids = res.data?.relationships?.field_add_to_fav?.data
         ?.filter((article) => {
           return article.id !== "missing";
         })
@@ -28,7 +29,14 @@ export const UserProfile = () => {
     };
     fetchUserDetails();
   }, [id]);
-  console.log(blogs);
+
+  const onBlogDelete = (id) => {
+    setUserBlogs(
+      userBlogs.filter((item) => {
+        return item.id !== id;
+      })
+    );
+  };
   return (
     <>
       <div>
@@ -41,7 +49,10 @@ export const UserProfile = () => {
         <div className="max-w-3xl p-8 sm:flex sm:space-x-6 dark:bg-gray-900 dark:text-gray-100 mx-auto mb-5 shadow-md">
           <div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
             <img
-              src={profile.user_picture?.uri?.url}
+              src={
+                profile.user_picture?.uri?.url ||
+                "https://source.unsplash.com/100x100/?portrait?1"
+              }
               alt=""
               className="object-cover object-center w-full h-full rounded dark:bg-gray-500"
             />
@@ -49,7 +60,7 @@ export const UserProfile = () => {
           <div className="flex flex-col space-y-4">
             <div>
               <h2 className="text-gray-900 font-bold text-3xl tracking-tight mb-2">
-                {profile.name}
+                {profile?.name}
               </h2>
               <span className="text-md dark:text-gray-400">Admin</span>
             </div>
@@ -68,20 +79,6 @@ export const UserProfile = () => {
                 </svg>
                 <span className="dark:text-gray-400">{profile.mail}</span>
               </span>
-              {/* <span className="flex items-center space-x-2">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                  aria-label="Phonenumber"
-                  className="w-4 h-4"
-                >
-                  <path
-                    fill="currentColor"
-                    d="M449.366,89.648l-.685-.428L362.088,46.559,268.625,171.176l43,57.337a88.529,88.529,0,0,1-83.115,83.114l-57.336-43L46.558,362.088l42.306,85.869.356.725.429.684a25.085,25.085,0,0,0,21.393,11.857h22.344A327.836,327.836,0,0,0,461.222,133.386V111.041A25.084,25.084,0,0,0,449.366,89.648Zm-20.144,43.738c0,163.125-132.712,295.837-295.836,295.837h-18.08L87,371.76l84.18-63.135,46.867,35.149h5.333a120.535,120.535,0,0,0,120.4-120.4v-5.333l-35.149-46.866L371.759,87l57.463,28.311Z"
-                  ></path>
-                </svg>
-                <span className="dark:text-gray-400">+25 381 77 983</span>
-              </span> */}
             </div>
           </div>
         </div>
@@ -98,13 +95,15 @@ export const UserProfile = () => {
             userBlogs.map((blog, id) => {
               return (
                 <Fragment key={id}>
-                  <FavBlogCard
+                  <BlogCard
                     title={blog.title}
-                    body={blog.body}
-                    image={blog?.field_image}
-                    user={blog?.uid}
+                    body={blog.body.value}
+                    img={blog?.field_image.uri.url}
+                    author={blog?.uid}
                     tag={blog?.field_tags}
                     id={blog.id}
+                    onDelete={onBlogDelete}
+                    isOwner={true}
                   />
                 </Fragment>
               );

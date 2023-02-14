@@ -11,28 +11,20 @@ const Blogs = () => {
     }
     fetchData();
   }, []);
-  const onBlogDelete = (id) => {
-    setBlogs(
-      blogs.filter((item) => {
-        return item.data.id !== id;
-      })
-    );
-  };
   return (
     <div className="flex flex-wrap">
       {blogs &&
         blogs.map((item, index) => {
-          let image = item?.image ? item.image.attributes.uri.url : null;
+          let image = item?.field_image ? item.field_image.uri.url : null;
           return (
             <BlogCard
               key={index}
-              title={item.data.attributes.title}
-              body={item.data.attributes.body.value}
-              id={item.data.id}
+              title={item.title}
+              body={item.body.value}
+              id={item.id}
               img={image}
-              author={item.user}
-              tag={item.tag}
-              onDelete={onBlogDelete}
+              author={item.uid}
+              tag={item.field_tags}
             />
           );
         })}

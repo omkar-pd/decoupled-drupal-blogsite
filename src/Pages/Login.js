@@ -15,9 +15,7 @@ export const Login = () => {
     e.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    const response = await handleLogin(username, password).then((res) => {
-      return res;
-    });
+    const response = await handleLogin(username, password);
     if (response) {
       dispatch({
         type: "LOGIN",

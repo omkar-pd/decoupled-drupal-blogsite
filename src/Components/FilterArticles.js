@@ -22,6 +22,7 @@ export const FilterArticles = () => {
   const onTermSelect = async (e) => {
     const res = await fetchArticlesByTag(e.target.value);
     SetSelectedTerm(e.target.value);
+    // console.log(res);
     if (res.length !== 0) {
       SetBlogs(
         res.map((item) => {
@@ -32,27 +33,19 @@ export const FilterArticles = () => {
       SetBlogs(null);
     }
   };
-  const onBlogDelete = (id) => {
-    SetBlogs(
-      blogs.filter((item) => {
-        return item.data.id !== id;
-      })
-    );
-  };
 
   const RenderBlogs = blogs ? (
     blogs.map((item, index) => {
-      let image = item?.image ? item.image.attributes.uri.url : null;
+      let image = item?.field_image ? item.field_image.uri.url : null;
       return (
         <BlogCard
           key={index}
-          title={item.data.attributes.title}
-          body={item.data.attributes.body.processed}
-          id={item.data.id}
+          title={item.title}
+          body={item.body.value}
+          id={item.id}
           img={image}
-          author={item.user}
-          tag={item.tag}
-          onDelete={onBlogDelete}
+          author={item.uid}
+          tag={item.field_tags}
         ></BlogCard>
       );
     })

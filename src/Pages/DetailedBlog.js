@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import jsonapi from "jsonapi-parse";
 import { fetchDetailedArticle } from "../Services/fetchData";
 import { FaEdit, FaTrash, FaHeart, FaRegHeart } from "react-icons/fa";
 import "./css/DetailedBlog.css";
@@ -8,30 +9,28 @@ import { Context } from "../Context/userContext";
 import { useNavigate } from "react-router-dom";
 import { deleteArticle } from "../Services/deleteArticle";
 import { isLoggedIn } from "../Services/auth";
-import { createJsonResponse } from "../Services/fetchData";
 import { removeFromFav, Fav, isFavorite } from "../Services/Fav";
 
 export default function DetailedBlog() {
   const [detailedBlog, setDetailedBlog] = useState({});
   const [isFav, setIsFav] = useState();
   const parse = require("html-react-parser");
-  const { dispatch, state } = useContext(Context);
+  const { state } = useContext(Context);
   const { id } = useParams();
   const navigate = useNavigate();
   const base_url = process.env.REACT_APP_BASE_URL;
   useEffect(() => {
     // eslint-disable-next-line
-    function fetchData() {
-      fetchDetailedArticle(id).then((res) => {
-        const jsonRes = createJsonResponse(res);
-        setDetailedBlog({
-          id: res.data.id,
-          title: res.data.attributes.title,
-          body: parse(res.data.attributes.body.value),
-          image: `${base_url}${jsonRes.data.image.attributes.uri.url}`,
-          user: jsonRes.data.user.attributes.display_name,
-          tag: jsonRes.data.tag.attributes.name,
-        });
+    async function fetchData() {
+      const res = await fetchDetailedArticle(id);
+      const blog = jsonapi.parse(res);
+      setDetailedBlog({
+        id: blog.data.id,
+        title: blog.data.title,
+        body: parse(blog.data.body.value),
+        image: `${base_url}${blog.data.field_image.uri.url}`,
+        user: blog.data.uid.display_name,
+        tag: blog.data.field_tags[0].name,
       });
     }
     fetchData();
@@ -53,16 +52,10 @@ export default function DetailedBlog() {
   const AddBlogToFav = async () => {
     await Fav(detailedBlog.id);
     setIsFav(true);
-    // dispatch({
-    //   type: "LOGIN",
-    // });
   };
 
   const removeFav = async () => {
     await removeFromFav(id);
-    // dispatch({
-    // type: "LOGIN",
-    // });
     setIsFav(false);
   };
 

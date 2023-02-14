@@ -10,11 +10,11 @@ export const fetchArticles = async () => {
     const endpoints = data.map((article) => {
       return `${baseUrl}jsonapi/node/article/${article.id}?include=field_image,field_tags,uid`;
     });
-    const response = await axios
-      .all(endpoints.map((endpoint) => axios.get(endpoint)))
-      .then((data) => data);
-    const res1 = await createJsonResponse(response);
-    return res1;
+    const response = await axios.all(
+      endpoints.map(async (endpoint) => await axios.get(endpoint))
+    );
+    const articles = response.map((res) => jsonapi.parse(res.data));
+    return articles;
   } catch (error) {
     console.log(error);
   }
@@ -43,7 +43,7 @@ export const fetchLatestBlogs = async () => {
     let response = await axios.all(
       endpoints.map(async (endpoint) => await axios.get(endpoint))
     );
-    response = createJsonResponse(response);
+    response = response.map((res) => jsonapi.parse(res.data));
     return response;
   } catch (error) {
     return false;
@@ -71,7 +71,7 @@ export const fetchArticlesByTag = async (tagName) => {
     let response = await axios.all(
       endpoints.map(async (endpoint) => await axios.get(endpoint))
     );
-    response = createJsonResponse(response);
+    response = response.map((res) => jsonapi.parse(res.data));
     return response;
   } catch (error) {
     return false;
@@ -109,33 +109,34 @@ export const fetchArticlesByUser = async (uid) => {
   }
 };
 
-export const createJsonResponse = (res) => {
-  if (!isNaN(res.length)) {
-    res.forEach((item, id) => {
-      return item.data.included.forEach((item2) => {
-        if (item2.type === "file--file") {
-          return (res[id].data.image = item2);
-        }
-        if (item2.type === "taxonomy_term--tags") {
-          res[id].data.tag = item2;
-        }
-        if (item2.type === "user--user") {
-          res[id].data.user = item2;
-        }
-      });
-    });
-  } else {
-    res.included.forEach((item) => {
-      if (item.type === "file--file") {
-        return (res.data.image = item);
-      }
-      if (item.type === "taxonomy_term--tags") {
-        res.data.tag = item;
-      }
-      if (item.type === "user--user") {
-        res.data.user = item;
-      }
-    });
-  }
-  return res;
-};
+// This function is replaced by Jsonapi.parse();
+// export const createJsonResponse = (res) => {
+//   if (!isNaN(res.length)) {
+//     res.forEach((item, id) => {
+//       return item.data.included.forEach((item2) => {
+//         if (item2.type === "file--file") {
+//           return (res[id].data.image = item2);
+//         }
+//         if (item2.type === "taxonomy_term--tags") {
+//           res[id].data.tag = item2;
+//         }
+//         if (item2.type === "user--user") {
+//           res[id].data.user = item2;
+//         }
+//       });
+//     });
+//   } else {
+//     res.included.forEach((item) => {
+//       if (item.type === "file--file") {
+//         return (res.data.image = item);
+//       }
+//       if (item.type === "taxonomy_term--tags") {
+//         res.data.tag = item;
+//       }
+//       if (item.type === "user--user") {
+//         res.data.user = item;
+//       }
+//     });
+//   }
+//   return res;
+// };
