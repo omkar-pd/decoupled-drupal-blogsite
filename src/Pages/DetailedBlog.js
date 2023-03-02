@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
-import jsonapi from "jsonapi-parse";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { fetchDetailedArticle } from "../Services/fetchData";
 import { FaEdit, FaTrash, FaHeart, FaRegHeart } from "react-icons/fa";
-import "./css/DetailedBlog.css";
-import { Link } from "react-router-dom";
 import { Context } from "../Context/userContext";
-import { useNavigate } from "react-router-dom";
 import { deleteArticle } from "../Services/deleteArticle";
 import { isLoggedIn } from "../Services/auth";
 import { removeFromFav, Fav, isFavorite } from "../Services/Fav";
+import { InlineShareButtons } from "sharethis-reactjs";
+import jsonapi from "jsonapi-parse";
+import "./css/DetailedBlog.css";
 
 export default function DetailedBlog() {
   const [detailedBlog, setDetailedBlog] = useState({});
@@ -92,9 +91,30 @@ export default function DetailedBlog() {
         <img src={detailedBlog.image} alt="" />
       </div>
       <div className="blog-body m-3">{detailedBlog.body}</div>
-      <div className="border-gray-900 bg-regal-blue p-3">
+      <div className="border-gray-900 bg-regal-blue p-3 mb-3">
         Tag: <span className="px-4">{detailedBlog.tag} </span>
       </div>
+      <InlineShareButtons
+        config={{
+          alignment: "center",
+          color: "social",
+          enabled: true,
+          font_size: 16,
+          labels: "cta",
+          language: "en",
+          networks: [
+            "whatsapp",
+            "linkedin",
+            "messenger",
+            "facebook",
+            "twitter",
+          ],
+          padding: 10,
+          radius: 4,
+          size: 35,
+          title: `Read this exciting blog at`,
+        }}
+      />
     </div>
   );
 }
