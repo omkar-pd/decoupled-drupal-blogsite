@@ -4,6 +4,7 @@ import { getUserDetails, getUserFavArticles } from "../Services/user";
 import { FavBlogCard } from "../Components/FavBlogCard";
 import { fetchArticlesByUser } from "../Services/fetchData";
 import BlogCard from "../Components/BlogCard";
+import { Link } from "react-router-dom";
 export const UserProfile = () => {
   const [blogs, setBlogs] = useState([]);
   const [profile, setProfile] = useState([]);
@@ -91,7 +92,7 @@ export const UserProfile = () => {
           Blogs
         </h3>
         <div className="flex flex-wrap">
-          {userBlogs &&
+          {userBlogs.length > 0 ? (
             userBlogs.map((blog, id) => {
               return (
                 <Fragment key={id}>
@@ -107,7 +108,17 @@ export const UserProfile = () => {
                   />
                 </Fragment>
               );
-            })}
+            })
+          ) : (
+            <div className=" w-full flex justify-center items-center h-36 ">
+              <h5 className="text-gray-900 font-bold text-2xl text-center tracking-tight mb-2">
+                No blogs found click here to create a{" "}
+                <Link className="underline text-blue-600" to="/blog/create">
+                  Blog.
+                </Link>
+              </h5>
+            </div>
+          )}
         </div>
       </div>
       <h3 className="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-5xl text-center py-5">
@@ -117,7 +128,7 @@ export const UserProfile = () => {
         Blogs{" "}
       </h3>
       <div className="flex flex-wrap">
-        {blogs &&
+        {blogs.length > 0 ? (
           blogs.map((blog, id) => {
             return (
               <Fragment key={id}>
@@ -131,7 +142,14 @@ export const UserProfile = () => {
                 />
               </Fragment>
             );
-          })}
+          })
+        ) : (
+          <div className=" w-full flex justify-center items-center h-36 ">
+            <h5 className="text-gray-900 font-bold text-2xl text-center tracking-tight mb-2">
+              No favorite blogs found.
+            </h5>
+          </div>
+        )}
       </div>
     </>
   );

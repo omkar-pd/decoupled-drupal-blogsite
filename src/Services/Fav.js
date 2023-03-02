@@ -47,6 +47,7 @@ export const removeFromFav = async (postID) => {
 };
 
 const createJsonBody = (userID, favPosts) => {
+  // eslint-disable-next-line
   const Posts = favPosts.map((item) => {
     if (item.id !== "missing") {
       return {
